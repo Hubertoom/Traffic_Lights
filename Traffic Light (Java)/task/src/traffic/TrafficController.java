@@ -1,5 +1,6 @@
 package traffic;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class TrafficController {
@@ -12,17 +13,36 @@ public class TrafficController {
         addInterval();
         while (true) {
             displayMenu();
+            scanner.nextLine();
+            try {
+                var clearCommand = System.getProperty("os.name").contains("Windows")
+                        ? new ProcessBuilder("cmd", "/c", "cls")
+                        : new ProcessBuilder("clear");
+                clearCommand.inheritIO().start().waitFor();
+            }
+            catch (InterruptedException | IOException e) {}
         }
     }
 
     private void addRoads() {
-        System.out.println("Input the number of roads:");
-        this.numberOfRoads = Integer.parseInt(scanner.nextLine());
+        System.out.print("Input the number of roads:");
+        this.numberOfRoads = readData();
     }
 
     private void addInterval() {
-        System.out.println("Input the interval:");
-        this.interval = Integer.parseInt(scanner.nextLine());
+        System.out.print("Input the interval:");
+        this.interval = readData();
+    }
+
+    private int readData() {
+        while (true) {
+            String  temp = scanner.nextLine();
+            if (temp.matches("[1-9]\\d*")) {
+                return Integer.parseInt(temp);
+            } else {
+                System.out.println("Incorrect input. Try again:");
+            }
+        }
     }
     private void displayMenu() {
         System.out.println("Menu:\n" +
@@ -30,9 +50,8 @@ public class TrafficController {
                 "2. Delete\n" +
                 "3. System\n" +
                 "0. Quit");
-
-        int userRequest = Integer.parseInt(scanner.nextLine());
-        switch (userRequest) {
+        String userRequest = scanner.nextLine();
+        switch (userRequest.matches("[0-3]") ? Integer.parseInt(userRequest) : -1) {
             case 0 -> {
                 System.out.println("Bye!");
                 System.exit(0);
@@ -52,7 +71,7 @@ public class TrafficController {
                 case 3 -> {
                     openSystem();
                 }
-            default -> throw new IllegalStateException("Unexpected value: 0 - 3");
+            default -> System.out.println("Incorrect option");
         }
     }
 
