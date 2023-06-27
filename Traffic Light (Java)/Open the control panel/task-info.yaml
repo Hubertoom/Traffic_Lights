@@ -53,5 +53,8 @@ files:
     }
   learner_created: false
 feedback_link: https://hyperskill.org/learn/step/22722#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Tue, 27 Jun 2023 11:53:33 UTC"
 record: -1
