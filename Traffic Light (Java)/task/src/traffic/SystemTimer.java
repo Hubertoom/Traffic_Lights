@@ -1,12 +1,12 @@
 package traffic;
 
 public class SystemTimer extends Thread {
-    private final TrafficController trafficController;
+    private final SystemStatus systemStatus;
     private int timeElapsed = 0;
     private boolean displayStatus = false;
 
-    public SystemTimer(TrafficController trafficController) {
-        this.trafficController = trafficController;
+    public SystemTimer(SystemStatus systemStatus) {
+        this.systemStatus = systemStatus;
     }
 
     public void setDisplayStatusOn() {
@@ -26,8 +26,14 @@ public class SystemTimer extends Thread {
                 if (displayStatus) {
                     TerminalCleaner.cleanTerminal();
                     System.out.printf("! %ds. have passsed since system startup !\n", timeElapsed);
-                    System.out.printf("! Number of roads: %d !\n", trafficController.getNumberOfRoads());
-                    System.out.printf("! Interval: %d !\n", trafficController.getInterval());
+                    System.out.printf("! Number of roads: %d !\n", systemStatus.getNumberOfRoads());
+                    System.out.printf("! Interval: %d !\n", systemStatus.getInterval());
+
+                    if (!systemStatus.getAllRoads().isEmpty()) {
+                        System.out.println();
+                        systemStatus.getAllRoads().forEach(System.out::println);
+                        System.out.println();
+                    }
                     System.out.printf("! Press \" Enter \" to open menu ! \n");
                 }
             } catch (InterruptedException e) {

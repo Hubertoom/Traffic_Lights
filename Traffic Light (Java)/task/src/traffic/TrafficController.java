@@ -4,31 +4,21 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class TrafficController {
-    private int numberOfRoads;
-    private int interval;
     private final Scanner scanner = new Scanner(System.in);
+    private final SystemStatus systemStatus;
     private final SystemTimer systemTimer;
-    private final CircularQueue circularQueue;
-
     public TrafficController() {
-        this.systemTimer = new SystemTimer(this);
+        displayGreetings();
+        int numberOfRoads = addRoads();
+        int interval = addInterval();
+        this.systemStatus = new SystemStatus(numberOfRoads, interval);
+        this.systemTimer = new SystemTimer(systemStatus);
         this.systemTimer.setName("QueueThread");
         this.systemTimer.start();
-        this.circularQueue = new CircularQueue(numberOfRoads);
-    }
-
-    public int getNumberOfRoads() {
-        return numberOfRoads;
-    }
-
-    public int getInterval() {
-        return interval;
     }
 
     public void run() {
-        displayGreetings();
-        addRoads();
-        addInterval();
+
         while (true) {
             displayMenu();
             scanner.nextLine();
@@ -36,14 +26,14 @@ public class TrafficController {
         }
     }
 
-    private void addRoads() {
+    private int addRoads() {
         System.out.print("Input the number of roads:");
-        this.numberOfRoads = readData();
+        return readData();
     }
 
-    private void addInterval() {
+    private int addInterval() {
         System.out.print("Input the interval:");
-        this.interval = readData();
+        return readData();
     }
 
     private int readData() {
@@ -82,16 +72,15 @@ public class TrafficController {
     private void addRoad() {
         System.out.println("Input road name: ");
         String roadName = scanner.nextLine();
-        if (circularQueue.enqueue(roadName)) {
+        if (systemStatus.addRoad(roadName)) {
             System.out.printf("%s Added!\n", roadName);
         } else {
             System.out.println("queue is full");
         }
-        this.numberOfRoads++;
     }
 
     private void deleteRoad() {
-        String result = circularQueue.dequeue();
+        String result = systemStatus.deleteRoad();
         if (Objects.isNull(result)) {
             System.out.println("queue is empty");
         } else {
