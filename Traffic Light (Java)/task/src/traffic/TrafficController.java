@@ -1,12 +1,27 @@
 package traffic;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class TrafficController {
     private int numberOfRoads;
     private int interval;
     private final Scanner scanner = new Scanner(System.in);
+    private final SystemTimer systemTimer;
+
+    public TrafficController() {
+        this.systemTimer = new SystemTimer(this);
+        this.systemTimer.setName("QueueThread");
+        this.systemTimer.start();
+    }
+
+    public int getNumberOfRoads() {
+        return numberOfRoads;
+    }
+
+    public int getInterval() {
+        return interval;
+    }
+
     public void run() {
         displayGreetings();
         addRoads();
@@ -14,13 +29,7 @@ public class TrafficController {
         while (true) {
             displayMenu();
             scanner.nextLine();
-            try {
-                var clearCommand = System.getProperty("os.name").contains("Windows")
-                        ? new ProcessBuilder("cmd", "/c", "cls")
-                        : new ProcessBuilder("clear");
-                clearCommand.inheritIO().start().waitFor();
-            }
-            catch (InterruptedException | IOException e) {}
+            systemTimer.setDisplayStatusOff();
         }
     }
 
@@ -36,7 +45,7 @@ public class TrafficController {
 
     private int readData() {
         while (true) {
-            String  temp = scanner.nextLine();
+            String temp = scanner.nextLine();
             if (temp.matches("[1-9]\\d*")) {
                 return Integer.parseInt(temp);
             } else {
@@ -44,6 +53,7 @@ public class TrafficController {
             }
         }
     }
+
     private void displayMenu() {
         System.out.println("Menu:\n" +
                 "1. Add\n" +
@@ -54,6 +64,7 @@ public class TrafficController {
         switch (userRequest.matches("[0-3]") ? Integer.parseInt(userRequest) : -1) {
             case 0 -> {
                 System.out.println("Bye!");
+                systemTimer.interrupt();
                 System.exit(0);
             }
             case 1 -> {
@@ -68,9 +79,9 @@ public class TrafficController {
                     return;
                 }
             }
-                case 3 -> {
-                    openSystem();
-                }
+            case 3 -> {
+                systemTimer.setDisplayStatusOn();
+            }
             default -> System.out.println("Incorrect option");
         }
     }
@@ -79,7 +90,4 @@ public class TrafficController {
         System.out.println("Welcome to the traffic management system!");
     }
 
-    private void openSystem() {
-        System.out.println("System opened");
-    }
 }
