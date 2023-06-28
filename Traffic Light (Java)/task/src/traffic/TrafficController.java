@@ -1,5 +1,6 @@
 package traffic;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class TrafficController {
@@ -7,11 +8,13 @@ public class TrafficController {
     private int interval;
     private final Scanner scanner = new Scanner(System.in);
     private final SystemTimer systemTimer;
+    private final CircularQueue circularQueue;
 
     public TrafficController() {
         this.systemTimer = new SystemTimer(this);
         this.systemTimer.setName("QueueThread");
         this.systemTimer.start();
+        this.circularQueue = new CircularQueue(numberOfRoads);
     }
 
     public int getNumberOfRoads() {
@@ -67,22 +70,32 @@ public class TrafficController {
                 systemTimer.interrupt();
                 System.exit(0);
             }
-            case 1 -> {
-                this.numberOfRoads++;
-                System.out.println("Road added");
-            }
-            case 2 -> {
-                if (this.numberOfRoads > 1) {
-                    System.out.println("Road deleted");
-                    this.numberOfRoads--;
-                } else {
-                    return;
-                }
-            }
+            case 1 -> addRoad();
+            case 2 -> deleteRoad();
             case 3 -> {
                 systemTimer.setDisplayStatusOn();
             }
             default -> System.out.println("Incorrect option");
+        }
+    }
+
+    private void addRoad() {
+        System.out.println("Input road name: ");
+        String roadName = scanner.nextLine();
+        if (circularQueue.enqueue(roadName)) {
+            System.out.printf("%s Added!\n", roadName);
+        } else {
+            System.out.println("queue is full");
+        }
+        this.numberOfRoads++;
+    }
+
+    private void deleteRoad() {
+        String result = circularQueue.dequeue();
+        if (Objects.isNull(result)) {
+            System.out.println("queue is empty");
+        } else {
+            System.out.printf("%s deleted!\n", result);
         }
     }
 
