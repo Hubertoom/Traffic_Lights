@@ -30,6 +30,6 @@ public class SystemStatus {
     }
 
     public List<String> getAllRoads() {
-        return circularQueue.getAllRoads();
+        return circularQueue.getAllElements();
     }
 }

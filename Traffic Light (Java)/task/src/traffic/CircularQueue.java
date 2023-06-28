@@ -1,30 +1,97 @@
 package traffic;
 
-import java.util.ArrayDeque;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
-public class CircularQueue<E> {
-    private final Queue<E> circularQueue;
+public class CircularQueue<E> extends LinkedList {
     private int maxSize;
+    private int currentSize = 0;
+    private int head = 0;
 
     public CircularQueue(int maxSize) {
         this.maxSize = maxSize;
-        this.circularQueue = new ArrayDeque<>(maxSize);
     }
 
+    /**
+     * Method returns maximal number of elements which can be storek in queue.
+     * @return maximal number of elements in queue
+     */
+    public int getMaxSize() {
+        return maxSize;
+    }
+
+    /**
+     * Inserts specified element at the end of this circular queue.
+     * This method is not equivalent to others method like offer(), add()
+     * because insertion of the element is deterimnated by head of this queue.
+     * Maximum number of elements is specified when queue is created.
+     * It doesn't change its size automatically.
+     * @param element - element to be appened to the queue
+     * @return true if element has been inserted or false if queue is full
+     */
     public boolean enqueue(E element) {
-        if (circularQueue.size() == maxSize) {
+        if (size() == maxSize) {
             return false;
         }
-        return circularQueue.offer(element);
+        currentSize++;
+        if (head == 0) {
+            addLast(element);
+        } else {
+            add(head, element);
+            head = (head + 1) % currentSize;
+        }
+        return true;
     }
 
+    @Override
+    public boolean addAll(Collection c) {
+        currentSize += c.size();
+        return super.addAll(c);
+    }
+
+    /**
+     * Retrieves and remove head of the circular queue represented by this circular queue
+     * (in other words, the current element pointed by the coursor of this circular queue),
+     * or returns null if this circular queue is empty.
+     * * @return Current element pointed as a head of this circular queue or null if
+     * circular queue is empty
+     */
     public E dequeue () {
-        return circularQueue.poll();
+        if (isEmpty()) {
+            return null;
+        }
+        E element = (E) remove(head);
+        currentSize--;
+        if (currentSize == 0) {
+            head = 0;
+        } else {
+            head %= currentSize;
+        }
+        return element;
     }
 
-    public List<E> getAllRoads() {
-        return circularQueue.stream().toList();
+    /**
+     * Retrieves but not remove head of the circular queue represented by this circular queue
+     * (in other words, the current element pointed by the coursor of this queue),
+     * or returns null if this queue is empty.
+     * Every invokes of this method returns an element and moves the pointer to the next element.
+     * There is no first or last element, the method works in a circle.
+     *
+     * @return Current element pointed as a head of this queue or null is queue is empty.
+     */
+    public E getNext() {
+        System.out.println("head = " + head);
+        if (isEmpty()) {
+            return null;
+        }
+        E element = (E) get(head);
+        head = (head + 1) % currentSize;
+        return element;
+    }
+
+    public List<E> getAllElements() {
+        List<E> list = new ArrayList<>();
+        Iterator<E> iterator = this.iterator();
+        iterator.forEachRemaining(list::add);
+        return list;
     }
 }

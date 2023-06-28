@@ -801,6 +801,244 @@ files:
       }
     }
   learner_created: false
+- name: src/traffic/SystemTimer.java
+  visible: true
+  text: |
+    package traffic;
+
+    public class SystemTimer extends Thread {
+        private final SystemStatus systemStatus;
+        private int timeElapsed = 0;
+        private boolean displayStatus = false;
+
+        public SystemTimer(SystemStatus systemStatus) {
+            this.systemStatus = systemStatus;
+        }
+
+        public void setDisplayStatusOn() {
+            this.displayStatus = true;
+        }
+
+        public void setDisplayStatusOff() {
+            this.displayStatus = false;
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    Thread.sleep(1000L);
+                    timeElapsed++;
+                    if (displayStatus) {
+                        TerminalCleaner.cleanTerminal();
+                        System.out.printf("! %ds. have passsed since system startup !\n", timeElapsed);
+                        System.out.printf("! Number of roads: %d !\n", systemStatus.getNumberOfRoads());
+                        System.out.printf("! Interval: %d !\n", systemStatus.getInterval());
+
+                        if (!systemStatus.getAllRoads().isEmpty()) {
+                            System.out.println();
+                            systemStatus.getAllRoads().forEach(System.out::println);
+                            System.out.println();
+                        }
+                        System.out.printf("! Press \" Enter \" to open menu ! \n");
+                    }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+  learner_created: true
+- name: src/traffic/TerminalCleaner.java
+  visible: true
+  text: |
+    package traffic;
+
+    import java.io.IOException;
+
+    public class TerminalCleaner {
+        public static void cleanTerminal() {
+            try {
+                var clearCommand = System.getProperty("os.name").contains("Windows")
+                        ? new ProcessBuilder("cmd", "/c", "cls")
+                        : new ProcessBuilder("clear");
+                clearCommand.inheritIO().start().waitFor();
+            } catch (InterruptedException | IOException e) {}
+        }
+    }
+  learner_created: true
+- name: src/traffic/CircularQueue.java
+  visible: true
+  text: |
+    package traffic;
+
+    import java.util.ArrayDeque;
+    import java.util.List;
+    import java.util.Queue;
+
+    public class CircularQueue<E> {
+        private final Queue<E> circularQueue;
+        private int maxSize;
+
+        public CircularQueue(int maxSize) {
+            this.maxSize = maxSize;
+            this.circularQueue = new ArrayDeque<>(maxSize);
+        }
+
+        public boolean enqueue(E element) {
+            if (circularQueue.size() == maxSize) {
+                return false;
+            }
+            return circularQueue.offer(element);
+        }
+
+        public E dequeue () {
+            return circularQueue.poll();
+        }
+
+        public List<E> getAllRoads() {
+            return circularQueue.stream().toList();
+        }
+    }
+  learner_created: true
+- name: src/traffic/TrafficController.java
+  visible: true
+  text: |
+    package traffic;
+
+    import java.util.Objects;
+    import java.util.Scanner;
+
+    public class TrafficController {
+        private final Scanner scanner = new Scanner(System.in);
+        private final SystemStatus systemStatus;
+        private final SystemTimer systemTimer;
+        public TrafficController() {
+            displayGreetings();
+            int numberOfRoads = addRoads();
+            int interval = addInterval();
+            this.systemStatus = new SystemStatus(numberOfRoads, interval);
+            this.systemTimer = new SystemTimer(systemStatus);
+            this.systemTimer.setName("QueueThread");
+            this.systemTimer.start();
+        }
+
+        public void run() {
+
+            while (true) {
+                displayMenu();
+                scanner.nextLine();
+                systemTimer.setDisplayStatusOff();
+            }
+        }
+
+        private int addRoads() {
+            System.out.print("Input the number of roads:");
+            return readData();
+        }
+
+        private int addInterval() {
+            System.out.print("Input the interval:");
+            return readData();
+        }
+
+        private int readData() {
+            while (true) {
+                String temp = scanner.nextLine();
+                if (temp.matches("[1-9]\\d*")) {
+                    return Integer.parseInt(temp);
+                } else {
+                    System.out.println("Incorrect input. Try again:");
+                }
+            }
+        }
+
+        private void displayMenu() {
+            System.out.println("Menu:\n" +
+                    "1. Add\n" +
+                    "2. Delete\n" +
+                    "3. System\n" +
+                    "0. Quit");
+            String userRequest = scanner.nextLine();
+            switch (userRequest.matches("[0-3]") ? Integer.parseInt(userRequest) : -1) {
+                case 0 -> {
+                    System.out.println("Bye!");
+                    systemTimer.interrupt();
+                    System.exit(0);
+                }
+                case 1 -> addRoad();
+                case 2 -> deleteRoad();
+                case 3 -> {
+                    systemTimer.setDisplayStatusOn();
+                }
+                default -> System.out.println("Incorrect option");
+            }
+        }
+
+        private void addRoad() {
+            System.out.println("Input road name: ");
+            String roadName = scanner.nextLine();
+            if (systemStatus.addRoad(roadName)) {
+                System.out.printf("%s Added!\n", roadName);
+            } else {
+                System.out.println("queue is full");
+            }
+        }
+
+        private void deleteRoad() {
+            String result = systemStatus.deleteRoad();
+            if (Objects.isNull(result)) {
+                System.out.println("queue is empty");
+            } else {
+                System.out.printf("%s deleted!\n", result);
+            }
+        }
+
+        private void displayGreetings() {
+            System.out.println("Welcome to the traffic management system!");
+        }
+
+    }
+  learner_created: true
+- name: src/traffic/SystemStatus.java
+  visible: true
+  text: |
+    package traffic;
+
+    import java.util.List;
+
+    public class SystemStatus {
+        private final int numberOfRoads;
+        private final int interval;
+        private final CircularQueue<String> circularQueue;
+
+        public SystemStatus(int numberOfRoads, int interval) {
+            this.numberOfRoads = numberOfRoads;
+            this.interval = interval;
+            this.circularQueue = new CircularQueue(numberOfRoads);
+        }
+
+        public boolean addRoad(String element) {
+            return circularQueue.enqueue(element);
+        }
+
+        public String  deleteRoad() {
+            return circularQueue.dequeue();
+        }
+
+        public int getNumberOfRoads() {
+            return numberOfRoads;
+        }
+
+        public int getInterval() {
+            return interval;
+        }
+
+        public List<String> getAllRoads() {
+            return circularQueue.getAllRoads();
+        }
+    }
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/22727#comment
 status: Unchecked
-record: -1
+record: 6
