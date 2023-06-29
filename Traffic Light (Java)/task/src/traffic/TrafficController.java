@@ -4,15 +4,18 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class TrafficController {
+
     private final Scanner scanner = new Scanner(System.in);
-    private final SystemStatus systemStatus;
+    private final CircularQueue<Road> circularQueue;
+    private final int interval;
     private final SystemTimer systemTimer;
+
     public TrafficController() {
         displayGreetings();
-        int numberOfRoads = addRoads();
-        int interval = addInterval();
-        this.systemStatus = new SystemStatus(numberOfRoads, interval);
-        this.systemTimer = new SystemTimer(systemStatus);
+        int numberOfRoads = addNumberOfRoads();
+        this.interval = addInterval();
+        this.circularQueue = new CircularQueue<>(numberOfRoads);
+        this.systemTimer = new SystemTimer(circularQueue, numberOfRoads, interval);
         this.systemTimer.setName("QueueThread");
         this.systemTimer.start();
     }
@@ -26,7 +29,7 @@ public class TrafficController {
         }
     }
 
-    private int addRoads() {
+    private int addNumberOfRoads() {
         System.out.print("Input the number of roads:");
         return readData();
     }
@@ -48,11 +51,12 @@ public class TrafficController {
     }
 
     private void displayMenu() {
-        System.out.println("Menu:\n" +
-                "1. Add\n" +
-                "2. Delete\n" +
-                "3. System\n" +
-                "0. Quit");
+        System.out.println("""
+                Menu:
+                1. Add
+                2. Delete
+                3. System
+                0. Quit""");
         String userRequest = scanner.nextLine();
         switch (userRequest.matches("[0-3]") ? Integer.parseInt(userRequest) : -1) {
             case 0 -> {
@@ -62,30 +66,29 @@ public class TrafficController {
             }
             case 1 -> addRoad();
             case 2 -> deleteRoad();
-            case 3 -> {
-                systemTimer.setDisplayStatusOn();
-            }
+            case 3 -> systemTimer.setDisplayStatusOn();
             default -> System.out.println("Incorrect option");
         }
     }
 
-    private void addRoad() {
+    private synchronized void addRoad() {
         System.out.println("Input road name: ");
         String roadName = scanner.nextLine();
-        if (systemStatus.addRoad(roadName)) {
+
+        if (circularQueue.add(new Road(roadName))) {
             System.out.printf("%s Added!\n", roadName);
         } else {
             System.out.println("queue is full");
         }
     }
 
-    private void deleteRoad() {
-        String result = systemStatus.deleteRoad();
+    private synchronized void deleteRoad() {
+        Road result = circularQueue.removeFirst();
         if (Objects.isNull(result)) {
             System.out.println("queue is empty");
-        } else {
-            System.out.printf("%s deleted!\n", result);
+            return;
         }
+        System.out.printf("%s deleted!\n", result.getName());
     }
 
     private void displayGreetings() {

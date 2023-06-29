@@ -2,19 +2,38 @@ package traffic;
 
 import java.util.*;
 
-public class CircularQueue<E> extends LinkedList {
-    private int maxSize;
+public class CircularQueue<E> extends LinkedList<E> {
+    private final int maxSize;
     private int currentSize = 0;
     private int head = 0;
 
     public CircularQueue(int maxSize) {
         this.maxSize = maxSize;
     }
+    @Override
+    public boolean add(E e) {
+        if (size() == maxSize) {
+            return false;
+        }
+        currentSize++;
+        head = (head + 1) % currentSize;
+        return super.add(e);
+    }
 
-    /**
-     * Method returns maximal number of elements which can be storek in queue.
-     * @return maximal number of elements in queue
-     */
+    @Override
+    public E removeFirst() {
+        if (isEmpty()) {
+            return null;
+        }
+        head %= currentSize;
+        currentSize--;
+        return super.removeFirst();
+    }
+
+        /**
+         * Method returns maximal number of elements which can be storek in queue.
+         * @return maximal number of elements in queue
+         */
     public int getMaxSize() {
         return maxSize;
     }
@@ -43,14 +62,14 @@ public class CircularQueue<E> extends LinkedList {
     }
 
     @Override
-    public boolean addAll(Collection c) {
+    public boolean addAll(Collection<? extends E> c) {
         currentSize += c.size();
         return super.addAll(c);
     }
 
     /**
      * Retrieves and remove head of the circular queue represented by this circular queue
-     * (in other words, the current element pointed by the coursor of this circular queue),
+     * (in other words, the current element pointed by the cursor of this circular queue),
      * or returns null if this circular queue is empty.
      * * @return Current element pointed as a head of this circular queue or null if
      * circular queue is empty
@@ -59,7 +78,7 @@ public class CircularQueue<E> extends LinkedList {
         if (isEmpty()) {
             return null;
         }
-        E element = (E) remove(head);
+        E element = remove(head);
         currentSize--;
         if (currentSize == 0) {
             head = 0;
@@ -79,13 +98,19 @@ public class CircularQueue<E> extends LinkedList {
      * @return Current element pointed as a head of this queue or null is queue is empty.
      */
     public E getNext() {
-        System.out.println("head = " + head);
         if (isEmpty()) {
             return null;
         }
-        E element = (E) get(head);
+        E element = get(head);
         head = (head + 1) % currentSize;
         return element;
+    }
+
+    public E peekCurrent() {
+        if (isEmpty()) {
+            return null;
+        }
+        return get(head);
     }
 
     public List<E> getAllElements() {

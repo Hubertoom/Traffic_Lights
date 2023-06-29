@@ -9,6 +9,6 @@ public class TerminalCleaner {
                     ? new ProcessBuilder("cmd", "/c", "cls")
                     : new ProcessBuilder("clear");
             clearCommand.inheritIO().start().waitFor();
-        } catch (InterruptedException | IOException e) {}
+        } catch (InterruptedException | IOException ignored) {}
     }
 }
