@@ -39,7 +39,6 @@ public class SystemTimer extends Thread {
                 try {
                     Thread.sleep(1000L);
                     timeElapsed++;
-                    time--;
                     roadStatus();
                     if (time == 0) time = interval;
                     if (displayStatus) {
@@ -66,6 +65,8 @@ public class SystemTimer extends Thread {
         if (circularQueue.isEmpty()) {
             return;
         }
+        time--;
+
         if (circularQueue.stream().noneMatch(Road::isOpen)) {
             circularQueue.stream().min(Comparator.comparingInt(Road::getTimeToChangeStatus))
                     .ifPresent(road -> road.setOpen(true));
