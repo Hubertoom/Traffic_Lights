@@ -9,6 +9,7 @@ public class TrafficController {
     private final SystemTimer systemTimer;
 
     public TrafficController() {
+        TerminalCleaner.cleanTerminal();
         displayGreetings();
         int numberOfRoads = addNumberOfRoads();
         int interval = addInterval();
@@ -19,7 +20,6 @@ public class TrafficController {
     }
 
     public void run() {
-
         while (true) {
             displayMenu();
             scanner.nextLine();
