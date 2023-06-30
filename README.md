@@ -23,7 +23,10 @@ If you want to clone the repo:
 ``git clone https://github.com/Hubertoom/Traffic_Lights.git`` 
     
 - or start with *Project from Version Control* in your IDE by providing the URL of this repository.
-
-Warning!
-Best way to run 
+-  
 #### Project page: https://github.com/Hubertoom/Traffic_Lights
+
+
+
+https://github.com/Hubertoom/Traffic_Lights/assets/137101859/4121a045-01ec-44a5-b365-2d7c875dd348
+
