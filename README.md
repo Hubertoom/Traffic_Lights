@@ -3,7 +3,7 @@
 ## Learning outcomes
 
 Creating console application "traffic light". It covers topics like multithreading in Java, <br/>
-handling exceptions, inheriting classes and implementing and applying the * circular queue * data structure.
+handling exceptions, inheriting classes and implementing and applying the ***circular queue*** data structure.
 
 ## About the project
 
