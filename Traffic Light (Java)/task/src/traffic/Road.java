@@ -14,7 +14,11 @@ public class Road {
     }
 
     public void setOpen(boolean open) {
-        isOpen = open;
+        this.isOpen = open;
+    }
+
+    public int getTimeToChangeStatus() {
+        return timeToChangeStatus;
     }
 
     public boolean isOpen() {
@@ -25,13 +29,10 @@ public class Road {
         this.timeToChangeStatus = timeToChangeStatus;
     }
 
-    public void decreaseTime() {
-        timeToChangeStatus--;
-    }
     @Override
     public String toString() {
         return String.format("%s will be %s for %ds.",
-                name, isOpen ? ANSI_GREEN + "open" + ANSI_RESET: ANSI_RED + "closed" + ANSI_RESET, timeToChangeStatus);
+                name, isOpen ? ANSI_GREEN + "open" + ANSI_RESET : ANSI_RED + "closed" + ANSI_RESET, timeToChangeStatus);
     }
 
     public String getName() {

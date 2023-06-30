@@ -1,11 +1,13 @@
 package traffic;
 
+import java.util.Comparator;
+
 public class SystemTimer extends Thread {
     CircularQueue<Road> circularQueue;
     private int timeElapsed = 0;
     private boolean displayStatus = false;
     private final int interval;
-    private volatile int time;
+    private int time;
     private final int numberOfRoads;
 
 
@@ -13,7 +15,7 @@ public class SystemTimer extends Thread {
         this.circularQueue = circularQueue;
         this.interval = interval;
         this.numberOfRoads = numberOfRoads;
-        this.time = interval;
+        this.time = interval + 1;
     }
 
     public void setDisplayStatusOn() {
@@ -32,9 +34,8 @@ public class SystemTimer extends Thread {
                     Thread.sleep(1000L);
                     timeElapsed++;
                     time--;
-
-                    // TODO: 29.06.2023 logic to calculated remaining time :(
-
+                    roadStatus();
+                    if (time == 0) time = interval;
                     if (displayStatus) {
                         TerminalCleaner.cleanTerminal();
                         System.out.printf("! %ds. have passed since system startup !\n", timeElapsed);
@@ -55,7 +56,22 @@ public class SystemTimer extends Thread {
         }
     }
 
-    private synchronized void updateRoads() {
+    private void roadStatus() {
+        if (circularQueue.isEmpty()) {
+            return;
+        }
+        if (circularQueue.stream().noneMatch(Road::isOpen)) {
+            circularQueue.stream().min(Comparator.comparingInt(Road::getTimeToChangeStatus))
+                    .ifPresent(road -> road.setOpen(true));
+        }
 
+        if (time == 0) {
+            circularQueue.peekCurrent().setOpen(false);
+            circularQueue.getNext().setOpen(true);
+        }
+        for (int i = 0; i < circularQueue.size(); i++) {
+            circularQueue.peekCurrent().setTimeToChangeStatus((time == 0 ? interval : time ) + (i > 1 ? interval * (i - 1) : 0) );
+            circularQueue.getNext();
+        }
     }
 }

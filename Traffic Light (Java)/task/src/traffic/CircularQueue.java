@@ -16,7 +16,7 @@ public class CircularQueue<E> extends LinkedList<E> {
             return false;
         }
         currentSize++;
-        head = (head + 1) % currentSize;
+        head %= currentSize;
         return super.add(e);
     }
 
@@ -25,8 +25,9 @@ public class CircularQueue<E> extends LinkedList<E> {
         if (isEmpty()) {
             return null;
         }
-        head %= currentSize;
         currentSize--;
+        if (head == currentSize) head = 0;
+        if (head > 0 ) --head;
         return super.removeFirst();
     }
 
@@ -101,9 +102,8 @@ public class CircularQueue<E> extends LinkedList<E> {
         if (isEmpty()) {
             return null;
         }
-        E element = get(head);
         head = (head + 1) % currentSize;
-        return element;
+        return get(head);
     }
 
     public E peekCurrent() {
