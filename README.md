@@ -2,7 +2,7 @@
 
 ## Learning outcomes
 
-Creating console application "traffic light". It embraces issues like multithreading in Java, <br/>
+Creating console application "traffic light". It covers topics like multithreading in Java, <br/>
 handling exceptions, inheriting classes and implementing and applying the * circular queue * data structure.
 
 ## About the project
@@ -19,10 +19,8 @@ If you want to clone the repo:
 
 - run the command line in the directory you want to store the app and type the following command: 
   
-``https://github.com/Hubertoom/Traffic_Lights.git`` 
+``git clone https://github.com/Hubertoom/Traffic_Lights.git`` 
     
 - or start with *Project from Version Control* in your IDE by providing the URL of this repository.
-
-If you want to evaluate your text, paste it into the ``input.txt`` file in the project directory.
 
 #### Project page: https://github.com/Hubertoom/Traffic_Lights
