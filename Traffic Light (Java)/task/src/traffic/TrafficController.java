@@ -4,16 +4,14 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class TrafficController {
-
     private final Scanner scanner = new Scanner(System.in);
     private final CircularQueue<Road> circularQueue;
-    private final int interval;
     private final SystemTimer systemTimer;
 
     public TrafficController() {
         displayGreetings();
         int numberOfRoads = addNumberOfRoads();
-        this.interval = addInterval();
+        int interval = addInterval();
         this.circularQueue = new CircularQueue<>(numberOfRoads);
         this.systemTimer = new SystemTimer(circularQueue, numberOfRoads, interval);
         this.systemTimer.setName("QueueThread");
@@ -25,6 +23,7 @@ public class TrafficController {
         while (true) {
             displayMenu();
             scanner.nextLine();
+            TerminalCleaner.cleanTerminal();
             systemTimer.setDisplayStatusOff();
         }
     }
@@ -61,6 +60,7 @@ public class TrafficController {
         switch (userRequest.matches("[0-3]") ? Integer.parseInt(userRequest) : -1) {
             case 0 -> {
                 System.out.println("Bye!");
+                systemTimer.setActive(false);
                 systemTimer.interrupt();
                 System.exit(0);
             }
@@ -94,5 +94,4 @@ public class TrafficController {
     private void displayGreetings() {
         System.out.println("Welcome to the traffic management system!");
     }
-
 }

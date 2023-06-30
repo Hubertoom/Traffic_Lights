@@ -28,11 +28,13 @@ public class Road {
     public void setTimeToChangeStatus(int timeToChangeStatus) {
         this.timeToChangeStatus = timeToChangeStatus;
     }
-
     @Override
     public String toString() {
-        return String.format("%s will be %s for %ds.",
-                name, isOpen ? ANSI_GREEN + "open" + ANSI_RESET : ANSI_RED + "closed" + ANSI_RESET, timeToChangeStatus);
+        return String.format("%s%s will be %s for %ds.%s",
+                isOpen ? ANSI_GREEN : timeToChangeStatus > 1 ? ANSI_RED : ANSI_YELLOW,
+                name, isOpen ? "open" : "closed",
+                timeToChangeStatus,
+                ANSI_RESET);
     }
 
     public String getName() {

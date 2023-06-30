@@ -9,6 +9,7 @@ public class SystemTimer extends Thread {
     private final int interval;
     private int time;
     private final int numberOfRoads;
+    private boolean isActive;
 
 
     public SystemTimer(CircularQueue<Road> circularQueue, int numberOfRoads, int interval) {
@@ -16,6 +17,7 @@ public class SystemTimer extends Thread {
         this.interval = interval;
         this.numberOfRoads = numberOfRoads;
         this.time = interval + 1;
+        isActive = true;
     }
 
     public void setDisplayStatusOn() {
@@ -26,9 +28,13 @@ public class SystemTimer extends Thread {
         this.displayStatus = false;
     }
 
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
     @Override
     public void run() {
-        while (true) {
+        while (isActive) {
             synchronized (this) {
                 try {
                     Thread.sleep(1000L);

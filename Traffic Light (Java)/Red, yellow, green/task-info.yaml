@@ -1004,60 +1004,9 @@ files:
   visible: true
   learner_created: true
 feedback_link: https://hyperskill.org/learn/step/22727#comment
-status: Failed
+status: Solved
 feedback:
-  message: "Wrong answer in test #15\n\nIncorrect number of system outputs was found.\
-    \ Make sure, that system prints new info each second\n\nPlease find below the\
-    \ output of your program during this failed test.\nNote that the &#39;&gt;&#39;\
-    \ character indicates the beginning of the input line.\n\n---\n\nstdout:\nWelcome\
-    \ to the traffic management system!\nInput the number of roads:&gt; 3\nInput the\
-    \ interval:&gt; 3\nMenu:\n1. Add\n2. Delete\n3. System\n0. Quit\n&gt; 1\nInput\
-    \ road name: \n&gt; n3w_v3ry_unu5u4l_r04d_n4m3_0\nn3w_v3ry_unu5u4l_r04d_n4m3_0\
-    \ Added!\n&gt; \nMenu:\n1. Add\n2. Delete\n3. System\n0. Quit\n&gt; 1\nInput road\
-    \ name: \n&gt; n3w_v3ry_unu5u4l_r04d_n4m3_1\nn3w_v3ry_unu5u4l_r04d_n4m3_1 Added!\n\
-    &gt; \nMenu:\n1. Add\n2. Delete\n3. System\n0. Quit\n&gt; 1\nInput road name:\
-    \ \n&gt; n3w_v3ry_unu5u4l_r04d_n4m3_2\nn3w_v3ry_unu5u4l_r04d_n4m3_2 Added!\n&gt;\
-    \ \nMenu:\n1. Add\n2. Delete\n3. System\n0. Quit\n&gt; 3\n! 1s. have passed since\
-    \ system startup !\n! Number of roads: 3 !\n! Interval: 3 !\n\nn3w_v3ry_unu5u4l_r04d_n4m3_0\
-    \ will be open for 3s.\nn3w_v3ry_unu5u4l_r04d_n4m3_1 will be closed for 3s.\n\
-    n3w_v3ry_unu5u4l_r04d_n4m3_2 will be closed for 6s.\n\n! Press &quot; Enter &quot;\
-    \ to open menu ! \n! 2s. have passed since system startup !\n! Number of roads:\
-    \ 3 !\n! Interval: 3 !\n\nn3w_v3ry_unu5u4l_r04d_n4m3_0 will be open for 2s.\n\
-    n3w_v3ry_unu5u4l_r04d_n4m3_1 will be closed for 2s.\nn3w_v3ry_unu5u4l_r04d_n4m3_2\
-    \ will be closed for 5s.\n\n! Press &quot; Enter &quot; to open menu ! \n! 3s.\
-    \ have passed since system startup !\n! Number of roads: 3 !\n! Interval: 3 !\n\
-    \nn3w_v3ry_unu5u4l_r04d_n4m3_0 will be open for 1s.\nn3w_v3ry_unu5u4l_r04d_n4m3_1\
-    \ will be closed for 1s.\nn3w_v3ry_unu5u4l_r04d_n4m3_2 will be closed for 4s.\n\
-    \n! Press &quot; Enter &quot; to open menu ! \n! 4s. have passed since system\
-    \ startup !\n! Number of roads: 3 !\n! Interval: 3 !\n\nn3w_v3ry_unu5u4l_r04d_n4m3_0\
-    \ will be closed for 6s.\nn3w_v3ry_unu5u4l_r04d_n4m3_1 will be open for 3s.\n\
-    n3w_v3ry_unu5u4l_r04d_n4m3_2 will be closed for 3s.\n\n! Press &quot; Enter &quot;\
-    \ to open menu ! \n! 5s. have passed since system startup !\n! Number of roads:\
-    \ 3 !\n! Interval: 3 !\n\nn3w_v3ry_unu5u4l_r04d_n4m3_0 will be closed for 5s.\n\
-    n3w_v3ry_unu5u4l_r04d_n4m3_1 will be open for 2s.\nn3w_v3ry_unu5u4l_r04d_n4m3_2\
-    \ will be closed for 2s.\n\n! Press &quot; Enter &quot; to open menu ! \n! 6s.\
-    \ have passed since system startup !\n! Number of roads: 3 !\n! Interval: 3 !\n\
-    \nn3w_v3ry_unu5u4l_r04d_n4m3_0 will be closed for 4s.\nn3w_v3ry_unu5u4l_r04d_n4m3_1\
-    \ will be open for 1s.\nn3w_v3ry_unu5u4l_r04d_n4m3_2 will be closed for 1s.\n\n\
-    ! Press &quot; Enter &quot; to open menu ! \n! 7s. have passed since system startup\
-    \ !\n! Number of roads: 3 !\n! Interval: 3 !\n\nn3w_v3ry_unu5u4l_r04d_n4m3_0 will\
-    \ be closed for 3s.\nn3w_v3ry_unu5u4l_r04d_n4m3_1 will be closed for 6s.\nn3w_v3ry_unu5u4l_r04d_n4m3_2\
-    \ will be open for 3s.\n\n! Press &quot; Enter &quot; to open menu ! \n! 8s. have\
-    \ passed since system startup !\n! Number of roads: 3 !\n! Interval: 3 !\n\nn3w_v3ry_unu5u4l_r04d_n4m3_0\
-    \ will be closed for 2s.\nn3w_v3ry_unu5u4l_r04d_n4m3_1 will be closed for 5s.\n\
-    n3w_v3ry_unu5u4l_r04d_n4m3_2 will be open for 2s.\n\n! Press &quot; Enter &quot;\
-    \ to open menu ! \n! 9s. have passed since system startup !\n! Number of roads:\
-    \ 3 !\n! Interval: 3 !\n\nn3w_v3ry_unu5u4l_r04d_n4m3_0 will be closed for 1s.\n\
-    n3w_v3ry_unu5u4l_r04d_n4m3_1 will be closed for 4s.\nn3w_v3ry_unu5u4l_r04d_n4m3_2\
-    \ will be open for 1s.\n\n! Press &quot; Enter &quot; to open menu ! \n! 10s.\
-    \ have passed since system startup !\n! Number of roads: 3 !\n! Interval: 3 !\n\
-    \nn3w_v3ry_unu5u4l_r04d_n4m3_0 will be open for 3s.\nn3w_v3ry_unu5u4l_r04d_n4m3_1\
-    \ will be closed for 3s.\nn3w_v3ry_unu5u4l_r04d_n4m3_2 will be closed for 6s.\n\
-    \n! Press &quot; Enter &quot; to open menu ! \n! 11s. have passed since system\
-    \ startup !\n! Number of roads: 3 !\n! Interval: 3 !\n\nn3w_v3ry_unu5u4l_r04d_n4m3_0\
-    \ will be open for 2s.\nn3w_v3ry_unu5u4l_r04d_n4m3_1 will be closed for 2s.\n\
-    n3w_v3ry_unu5u4l_r04d_n4m3_2 will be closed for 5s.\n\n! Press &quot; Enter &quot;\
-    \ to open menu ! \n&gt; \nMenu:\n1. Add\n2. Delete\n3. System\n0. Quit\n&gt; 0\n\
-    Bye!\n\nstderr:\nE"
-  time: "Fri, 30 Jun 2023 10:49:45 UTC"
+  message: Well done! You've finished the project. Select a new project on <a href="https://hyperskill.org/projects">Hyperskill</a>
+    to continue learning.
+  time: "Fri, 30 Jun 2023 11:25:45 UTC"
 record: 6
