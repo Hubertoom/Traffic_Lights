@@ -17,10 +17,13 @@ You can simply download an archive, unzip it inside the directory you want to, a
 
 If you want to clone the repo:
 
+- (recommended) download the jar file from this repo and run it in the terminal using the command ``java -jar 'Traffic Lights.jar'``
 - run the command line in the directory you want to store the app and type the following command: 
   
 ``git clone https://github.com/Hubertoom/Traffic_Lights.git`` 
     
 - or start with *Project from Version Control* in your IDE by providing the URL of this repository.
 
+Warning!
+Best way to run 
 #### Project page: https://github.com/Hubertoom/Traffic_Lights
