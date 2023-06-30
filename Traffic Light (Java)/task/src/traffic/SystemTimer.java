@@ -54,9 +54,7 @@ public class SystemTimer extends Thread {
                         }
                         System.out.print("! Press \" Enter \" to open menu ! \n");
                     }
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                } catch (InterruptedException ignored) {}
             }
         }
     }
